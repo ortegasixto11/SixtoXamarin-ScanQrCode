@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ZXing;
@@ -18,10 +18,11 @@ namespace MangoDevoluciones.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DevolucionesPage : ContentPage
     {
-        //public List<ItemPrenda> Prendas { get; set; }
         public ObservableCollection<ItemPrenda> Prendas { get; set; }
         public GridLength HeightRow2 { get; set; }
         public GridLength HeightRow4 { get; set; }
+        public bool HasBarcodePedidoScanned { get; set; }
+
 
         public ZXing.Net.Mobile.Forms.ZXingScannerView scanner = new ZXing.Net.Mobile.Forms.ZXingScannerView();
 
@@ -54,23 +55,36 @@ namespace MangoDevoluciones.Views
             ScanQrCode_Prenda();
         }
 
-        private void HandleIconTrash_Tapped(object sender, EventArgs e)
+        private async void HandleIconTrash_Tapped(object sender, EventArgs e)
         {
-            VisibilityStackLayoutResultPedido(false);
-            VisibilityStackLayoutAddPrenda(false);
-            VisibilityStackLayoutQrPedido(true);
-            VisibilityStackLayoutQrPrenda(true);
-            Prendas = new ObservableCollection<ItemPrenda>();
-            RecalculateHeightCollectionViewPrendas();
+            var response = await DisplayAlert("Warning", "Desea cancelar el pedido?", "Ok", "Cancel");
+            if (response)
+            {
+                VisibilityStackLayoutResultPedido(false);
+                VisibilityStackLayoutAddPrenda(false);
+                VisibilityStackLayoutQrPedido(true);
+                VisibilityStackLayoutQrPrenda(false);
+                this.HasBarcodePedidoScanned = false;
+                Prendas = new ObservableCollection<ItemPrenda>();
+                RecalculateHeightCollectionViewPrendas();
 
-            var rows = this.gridPrincipal.RowDefinitions;
-            rows[2].Height = new GridLength(0, GridUnitType.Star);
-            rows[4].Height = new GridLength(0, GridUnitType.Star);
+                var rows = this.gridPrincipal.RowDefinitions;
+                rows[2].Height = new GridLength(0, GridUnitType.Star);
+                rows[4].Height = new GridLength(0, GridUnitType.Star);
+            }
         }
 
         private void HandleBtnAddItemPrenda(object sender, EventArgs e)
         {
             ScanQrCode_Prenda();
+        }
+
+        private void HandleLabelRemovePrenda_Tapped(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            TapGestureRecognizer gesture = (TapGestureRecognizer)label.GestureRecognizers[0];
+            ItemPrenda item = (ItemPrenda)gesture.CommandParameter;
+            RemovePrenda(item);
         }
 
         private void VisibilityStackLayoutResultPedido(bool visible)
@@ -113,7 +127,8 @@ namespace MangoDevoluciones.Views
                         Navigation.PopAsync();
                         VisibilityStackLayoutResultPedido(true);
                         VisibilityStackLayoutQrPedido(false);
-                        DisplayAlert("Scanned Barcode", result.Text, "OK");
+                        VisibilityStackLayoutQrPrenda(true);
+                        this.HasBarcodePedidoScanned = true;
                     });
                 };
 
@@ -173,6 +188,17 @@ namespace MangoDevoluciones.Views
         {
             this.cvPrendas.ItemsSource = Prendas;
             this.cvPrendas.HeightRequest = 190 * Prendas.Count();
+        }
+
+        void RemovePrenda(ItemPrenda item)
+        {
+            Prendas.Remove(item);
+            if (Prendas.Count() == 0)
+            {
+                VisibilityStackLayoutAddPrenda(false);
+                VisibilityStackLayoutQrPrenda(true);
+            }
+            RecalculateHeightCollectionViewPrendas();
         }
 
 

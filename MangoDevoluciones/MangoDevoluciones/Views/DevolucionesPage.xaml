@@ -17,6 +17,9 @@
             <OnPlatform x:TypeArguments="x:String" x:Key="MangoBoldFont">
                 <On Platform="Android" Value="MangoSansBold.otf#MangoSans" />
             </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String" x:Key="LabelHeightRequest">
+                <On Platform="Android" Value="28" />
+            </OnPlatform>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -51,8 +54,8 @@
             <StackLayout Grid.Row="1" 
                          Grid.Column="1" 
                          x:Name="slQrPedido" >
-                <Image Source="qr_image.png"
-                       HeightRequest="100"
+                <Image Source="barcode.jpg"
+                       HeightRequest="80"
                        Aspect="AspectFit" >
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="HandleQrPedido_Tapped" 
@@ -80,7 +83,7 @@
                        TextColor="LightGray"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Start"
-                       Margin="0, 4, 0, 0"
+                       Margin="0, 0, 0, 0"
                        HeightRequest="30"
                        FontSize="Title"
                        FontFamily="{StaticResource FontAwesomeSolid}" >
@@ -172,7 +175,8 @@
             <!-- Imagen QR Prenda -->
             <StackLayout Grid.Row="6" 
                          Grid.Column="1" 
-                         x:Name="slQrPrenda">
+                         x:Name="slQrPrenda" 
+                         IsVisible="False">
 
                 <Image Source="qr_image.png"
                        HeightRequest="100"
@@ -187,7 +191,8 @@
             <!-- Label de Prenda -->
             <StackLayout Grid.Row="7" 
                          Grid.Column="1" 
-                         x:Name="lblPrenda">
+                         x:Name="lblPrenda" 
+                         IsVisible="False">
                 
                 <Label Text="Prenda" 
                        BackgroundColor="Black" 
@@ -230,20 +235,6 @@
                          Grid.Column="1" 
                          x:Name="slPrendas" 
                          IsVisible="False">
-                
-                <!--<Image Source="https://http2.mlstatic.com/D_NQ_NP_621492-MLV31251520456_062019-W.jpg" 
-                       HeightRequest="150" 
-                       Aspect="Fill" 
-                       BackgroundColor="Aqua"/>
-                <Label Text="REF: 123456789-33696" 
-                       FontFamily="{StaticResource MangoBoldFont}"
-                       HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center"
-                       BackgroundColor="Black"
-                       TextColor="White"
-                       Margin="0, -5, 0, 0"
-                       HeightRequest="30"
-                       FontAttributes="Bold" />-->
 
                 <CollectionView x:Name="cvPrendas" 
                                 ItemsLayout="VerticalList">
@@ -260,21 +251,38 @@
 
                                 <Image Grid.Row="0" 
                                        Grid.Column="0" 
+                                       x:Name="ImagePrenda"
                                        Source="{Binding UrlImage}" 
                                        HeightRequest="150" 
                                        Aspect="Fill" 
                                        BackgroundColor="Aqua"/>
 
+                                <Label Grid.Row="0" 
+                                       Grid.Column="0" 
+                                       Text="x" 
+                                       TextColor="DarkGray"
+                                       WidthRequest="26"
+                                       HorizontalTextAlignment="Center"
+                                       Margin="0, 0, 0, 0"
+                                       VerticalOptions="Start"
+                                       HorizontalOptions="End" >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding Source={x:Reference ImagePrenda}, Path=BindingContext}"
+                                                              NumberOfTapsRequired="1"
+                                                              Tapped="HandleLabelRemovePrenda_Tapped" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+
                                 <Label Grid.Row="1" 
                                        Grid.Column="0" 
-                                       Text="{Binding Reference}"
+                                       Text="{Binding NumberReference}"
                                        FontFamily="{StaticResource MangoBoldFont}"
                                        HorizontalTextAlignment="Center"
                                        VerticalTextAlignment="Center"
                                        BackgroundColor="Black"
                                        TextColor="White"
                                        Margin="0, -7, 0, 10"
-                                       HeightRequest="30"
+                                       HeightRequest="29"
                                        FontAttributes="Bold" />
                             </Grid>
                         </DataTemplate>

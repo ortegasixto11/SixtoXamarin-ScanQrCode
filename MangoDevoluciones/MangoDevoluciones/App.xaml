@@ -8,10 +8,8 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <OnPlatform x:TypeArguments="x:String"
-                        x:Key="FontAwesomeSolid">
-                <On Platform="Android"
-                    Value="fa-solid-900.ttf#Font Awesome 5 Free Solid" />
+            <OnPlatform x:TypeArguments="x:String" x:Key="FontAwesomeSolid">
+                <On Platform="Android" Value="fa-solid-900.ttf#Font Awesome 5 Free Solid" />
             </OnPlatform>
 
         </ResourceDictionary>
