@@ -3,7 +3,6 @@
   <PropertyGroup>
     <SelectedDevice>device_one</SelectedDevice>
     <DefaultDevice>device_one</DefaultDevice>
-    <AndroidDesignerPreferredTheme>Theme.AppCompat.Light.NoActionBar</AndroidDesignerPreferredTheme>
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
 </Project>

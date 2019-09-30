@@ -222,6 +222,7 @@
                     <Button Grid.Row="0" 
                             Grid.Column="1" 
                             Text="Cargar Otro Item" 
+                            FontFamily="{StaticResource MangoBoldFont}"
                             BackgroundColor="DarkGray"
                             HeightRequest="36"
                             CornerRadius="20"
@@ -310,7 +311,9 @@
                     <Button Grid.Row="0" 
                             Grid.Column="1" 
                             Text="Finalizar Devolución" 
+                            FontFamily="{StaticResource MangoBoldFont}"
                             BackgroundColor="DarkGray"
+                            Clicked="HandleBtnFinalizarPedido_Clicked"
                             HeightRequest="36"
                             CornerRadius="20"
                             TextColor="White" />

@@ -27,11 +27,31 @@ namespace MangoDevoluciones.Views
         public ZXing.Net.Mobile.Forms.ZXingScannerView scanner = new ZXing.Net.Mobile.Forms.ZXingScannerView();
 
         public List<string> UrlImages = new List<string> {
-            "https://image.shutterstock.com/image-photo/amsterdam-dutch-november-10-2016-600w-549847663.jpg",
-            "https://image.shutterstock.com/image-photo/pair-sport-shoes-on-colorful-600w-1086173984.jpg",
-            "https://image.shutterstock.com/image-vector/pair-sneakers-color-rose-blue-600w-1418935901.jpg",
-            "https://image.shutterstock.com/image-vector/bluegrey-vector-sneakers-white-sole-600w-1153159427.jpg",
-            "https://image.shutterstock.com/image-photo/pair-pink-sport-shoes-on-600w-228691018.jpg"
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57055943_99.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/53073709_06_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/51083028_56_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/51083028_70_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/51053704_92_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/53025747_99_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57075943_43_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57064379_99_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57089202_99_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/51065026_95_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/51090908_76_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57094380_OR_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/51060897_TM_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/53007024_50_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57085930_65_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57006710_85_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/53015744_14_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57065926_37_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/53035035_02_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57067701_30_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57035933_70_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/57004381_99_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/51073785_09_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/51067657_99_B.jpg",
+            "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/53097655_05_B.jpg"
         };
 
         public DevolucionesPage()
@@ -72,6 +92,21 @@ namespace MangoDevoluciones.Views
                 rows[2].Height = new GridLength(0, GridUnitType.Star);
                 rows[4].Height = new GridLength(0, GridUnitType.Star);
             }
+        }
+
+        private void HandleBtnFinalizarPedido_Clicked(object sender, EventArgs e)
+        {
+            VisibilityStackLayoutResultPedido(false);
+            VisibilityStackLayoutAddPrenda(false);
+            VisibilityStackLayoutQrPedido(true);
+            VisibilityStackLayoutQrPrenda(false);
+            this.HasBarcodePedidoScanned = false;
+            Prendas = new ObservableCollection<ItemPrenda>();
+            RecalculateHeightCollectionViewPrendas();
+
+            var rows = this.gridPrincipal.RowDefinitions;
+            rows[2].Height = new GridLength(0, GridUnitType.Star);
+            rows[4].Height = new GridLength(0, GridUnitType.Star);
         }
 
         private void HandleBtnAddItemPrenda(object sender, EventArgs e)
