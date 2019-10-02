@@ -54,6 +54,14 @@ namespace MangoDevoluciones.Views
             "https://st.mngbcn.com/rcs/pics/static/T5/fotos/S20/53097655_05_B.jpg"
         };
 
+        public List<Pedido> Pedidos = new List<Pedido>
+        {
+            new Pedido{ OrderNumber = "46637-691", OrderDate = new DateTime(2019, 09, 04), CustomerName = "Melany Brown", CustomerAddress = "142500 West Smith Street Orlando, FL 32804 USA" },
+            new Pedido{ OrderNumber = "70028-773", OrderDate = new DateTime(2019, 09, 11), CustomerName = "Nicholas Williams", CustomerAddress = "3078 Columbia Road 30 Magnolia, AR 71753 USA" },
+            new Pedido{ OrderNumber = "13742-633", OrderDate = new DateTime(2019, 09, 18), CustomerName = "Owen Jackson", CustomerAddress = "28958 1500 East Street Walnut, IL 61376 USA" },
+            new Pedido{ OrderNumber = "32523-492", OrderDate = new DateTime(2019, 09, 25), CustomerName = "Jason Clark", CustomerAddress = "2445 D Avenue Anacortes, WA 98221, USA" }
+        };
+
         public DevolucionesPage()
         {
             InitializeComponent();
@@ -80,21 +88,16 @@ namespace MangoDevoluciones.Views
             var response = await DisplayAlert("Warning", "Desea cancelar el pedido?", "Ok", "Cancel");
             if (response)
             {
-                VisibilityStackLayoutResultPedido(false);
-                VisibilityStackLayoutAddPrenda(false);
-                VisibilityStackLayoutQrPedido(true);
-                VisibilityStackLayoutQrPrenda(false);
-                this.HasBarcodePedidoScanned = false;
-                Prendas = new ObservableCollection<ItemPrenda>();
-                RecalculateHeightCollectionViewPrendas();
-
-                var rows = this.gridPrincipal.RowDefinitions;
-                rows[2].Height = new GridLength(0, GridUnitType.Star);
-                rows[4].Height = new GridLength(0, GridUnitType.Star);
+                CancelPedido();
             }
         }
 
         private void HandleBtnFinalizarPedido_Clicked(object sender, EventArgs e)
+        {
+            CancelPedido();
+        }
+
+        private void CancelPedido()
         {
             VisibilityStackLayoutResultPedido(false);
             VisibilityStackLayoutAddPrenda(false);
@@ -103,6 +106,7 @@ namespace MangoDevoluciones.Views
             this.HasBarcodePedidoScanned = false;
             Prendas = new ObservableCollection<ItemPrenda>();
             RecalculateHeightCollectionViewPrendas();
+            GridRowOneMaximumHeight();
 
             var rows = this.gridPrincipal.RowDefinitions;
             rows[2].Height = new GridLength(0, GridUnitType.Star);
@@ -163,6 +167,8 @@ namespace MangoDevoluciones.Views
                         VisibilityStackLayoutResultPedido(true);
                         VisibilityStackLayoutQrPedido(false);
                         VisibilityStackLayoutQrPrenda(true);
+                        GridRowOneMinimumHeight();
+                        GeneratePedido(GetRandomPedido());
                         this.HasBarcodePedidoScanned = true;
                     });
                 };
@@ -170,7 +176,7 @@ namespace MangoDevoluciones.Views
                 // Navigate to our scanner page
                 await Navigation.PushAsync(scanPage);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -199,7 +205,7 @@ namespace MangoDevoluciones.Views
                 // Navigate to our scanner page
                 await Navigation.PushAsync(scanPage);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -219,13 +225,25 @@ namespace MangoDevoluciones.Views
             rows[4].Height = HeightRow4;
         }
 
+        private void GridRowOneMinimumHeight()
+        {
+            var rows = this.gridPrincipal.RowDefinitions;
+            rows[0].Height = new GridLength(10, GridUnitType.Absolute);
+        }
+
+        private void GridRowOneMaximumHeight()
+        {
+            var rows = this.gridPrincipal.RowDefinitions;
+            rows[0].Height = new GridLength(200, GridUnitType.Absolute);
+        }
+
         private void RecalculateHeightCollectionViewPrendas()
         {
             this.cvPrendas.ItemsSource = Prendas;
-            this.cvPrendas.HeightRequest = 190 * Prendas.Count();
+            this.cvPrendas.HeightRequest = 250 * Prendas.Count();
         }
 
-        void RemovePrenda(ItemPrenda item)
+        private void RemovePrenda(ItemPrenda item)
         {
             Prendas.Remove(item);
             if (Prendas.Count() == 0)
@@ -236,7 +254,13 @@ namespace MangoDevoluciones.Views
             RecalculateHeightCollectionViewPrendas();
         }
 
-
+        private void GeneratePedido(Pedido pedido)
+        {
+            this.lblOrderNumber.Text = pedido.OrderNumber;
+            this.lblOrderDate.Text = pedido.OrderDate.ToString("dd/MM/yyyy");
+            this.lblCustomerName.Text = pedido.CustomerName;
+            this.lblCustomerAddress.Text = pedido.CustomerAddress;
+        }
 
 
         private string GetRandomUrlImage()
@@ -244,6 +268,13 @@ namespace MangoDevoluciones.Views
             Random random = new Random();
             int index = random.Next(0, UrlImages.Count());
             return UrlImages.ElementAt(index);
+        }
+
+        private Pedido GetRandomPedido()
+        {
+            Random random = new Random();
+            int index = random.Next(0, Pedidos.Count());
+            return Pedidos.ElementAt(index);
         }
 
 

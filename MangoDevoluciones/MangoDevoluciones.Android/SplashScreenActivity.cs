@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace MangoDevoluciones.Droid
 {
-    [Activity(Label = "Mango Devoluciones", Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_round_launcher", Theme = "@style/SplashScreenTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Mango Devoluciones", Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_round_launcher", Theme = "@style/SplashScreenTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashScreenActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

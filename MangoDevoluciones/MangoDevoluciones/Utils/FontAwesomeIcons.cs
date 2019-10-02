@@ -5166,7 +5166,7 @@ namespace FontAwesome
         /// <para/>
         /// See https://fontawesome.com/icons/equals
         /// </summary>
-        public const string Equals = "\uf52c";
+        //public const string @Equals = "\uf52c";
 
         /// <summary>
         /// fa-eraser unicode value.

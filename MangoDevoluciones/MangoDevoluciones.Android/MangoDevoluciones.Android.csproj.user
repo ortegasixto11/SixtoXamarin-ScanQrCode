@@ -4,5 +4,6 @@
     <SelectedDevice>device_one</SelectedDevice>
     <DefaultDevice>device_one</DefaultDevice>
     <ProjectView>ProjectFiles</ProjectView>
+    <AndroidDesignerPreferredTheme>Theme.AppCompat.Light.NoActionBar</AndroidDesignerPreferredTheme>
   </PropertyGroup>
 </Project>
